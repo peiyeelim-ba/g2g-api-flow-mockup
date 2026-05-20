@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>G2G API Application Flow Enhancement — Mockups</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  .header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .logo {
+    background: #ee1c25; color: #fff; font-weight: 800;
+    padding: 8px 14px; border-radius: 8px; font-size: 22px; letter-spacing: -0.5px;
+  }
+  .header-title { font-size: 14px; color: #6e6e73; }
+
+  h1 { font-size: 32px; margin: 16px 0 8px; font-weight: 700; }
+  .subtitle { font-size: 16px; color: #6e6e73; margin: 0 0 8px; }
+  .meta {
+    font-size: 13px; color: #6e6e73; margin-top: 8px;
+  }
+  .meta strong { color: #1a1a1a; }
+
+  .intro {
+    background: #fff; border-radius: 10px; padding: 24px 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin: 28px 0;
+    font-size: 14.5px; line-height: 1.6; color: #3a3a3f;
+  }
+  .intro strong { color: #1a1a1a; }
+
+  .section-title {
+    font-size: 12px; font-weight: 700; color: #6e6e73;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin: 36px 0 14px;
+  }
+
+  .mockup-card {
+    background: #fff; border-radius: 10px; padding: 22px 26px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 20px;
+    text-decoration: none; color: inherit;
+    transition: 0.15s;
+  }
+  .mockup-card:hover {
+    transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    border-left: 4px solid #ee1c25; padding-left: 22px;
+  }
+  .mockup-num {
+    background: #fff4e0; color: #c87a00;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
+  }
+  .mockup-body { flex: 1; }
+  .mockup-title { font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+  .mockup-desc { font-size: 13.5px; color: #6e6e73; margin: 0; }
+  .mockup-arrow { color: #ee1c25; font-size: 22px; font-weight: 600; }
+
+  .tags { display: flex; gap: 6px; margin-top: 8px; }
+  .tag {
+    background: #f3f3f5; color: #6e6e73;
+    padding: 2px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag.new { background: #fdeaea; color: #c8242c; }
+
+  .flow-tip {
+    background: #f7faff; border-left: 3px solid #3b6fe4;
+    padding: 14px 18px; border-radius: 4px; font-size: 13.5px;
+    color: #3a3a3f; line-height: 1.55; margin-top: 24px;
+  }
+  .flow-tip strong { color: #1a1a1a; }
+
+  footer {
+    text-align: center; color: #6e6e73; font-size: 12px;
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid #ececec;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">G2G.</div>
+    <div class="header-title">API Application Flow Enhancement</div>
+  </div>
+
+  <h1>Mockups for Stakeholder Review</h1>
+  <p class="subtitle">Self-serve API verification flow replacing manual BD approvals</p>
+  <p class="meta">
+    <strong>BRD Owner:</strong> Jason
+    &nbsp;·&nbsp;
+    <strong>Stakeholders:</strong> Jason, Thomson, Rui Jun, Vava, Alfred
+    &nbsp;·&nbsp;
+    <strong>Status:</strong> Draft for review
+  </p>
+
+  <div class="intro">
+    <strong>Context.</strong> Today, BD manually approves API access for all categories without proof of integration — sellers then enable "Instant Delivery" without writing a single line of code, leading to orders stuck in "Delivering" and CTO manual intervention. This proposal replaces that with a self-serve flow: sellers must create a locked Test Offer, purchase it from a secondary account, and only after a successful API delivery payload is received does "Instant Delivery" unlock across all their offers.
+  </div>
+
+  <div class="section-title">Suggested review order</div>
+
+  <a class="mockup-card" href="api-integration-mockup.html">
+    <div class="mockup-num">1</div>
+    <div class="mockup-body">
+      <p class="mockup-title">API Integration page</p>
+      <p class="mockup-desc">Entry point. Seller manages API keys, webhooks, and (new) creates Test Offers. Click <strong>+ Create test offer</strong> to start the verification flow.</p>
+      <div class="tags"><span class="tag new">UPDATED</span><span class="tag">Test offers section</span></div>
+    </div>
+    <div class="mockup-arrow">→</div>
+  </a>
+
+  <a class="mockup-card" href="create-test-offer-mockup.html">
+    <div class="mockup-num">2</div>
+    <div class="mockup-body">
+      <p class="mockup-title">Create Test Offer flow</p>
+      <p class="mockup-desc">Two-step creation: pick service category, then a locked offer template (Title, Description, Price $1.00, Quantity 1, Instant Delivery — all non-editable). Toggle Step 1 / Step 2 at bottom-left.</p>
+      <div class="tags"><span class="tag new">NEW</span><span class="tag">Locked template</span></div>
+    </div>
+    <div class="mockup-arrow">→</div>
+  </a>
+
+  <a class="mockup-card" href="test-offer-checkout-mockup.html">
+    <div class="mockup-num">3</div>
+    <div class="mockup-body">
+      <p class="mockup-title">Test Offer Checkout (buyer view)</p>
+      <p class="mockup-desc">What the seller sees when purchasing their own test offer from the secondary account. Locked price, locked quantity, "Do not purchase" warning banner.</p>
+      <div class="tags"><span class="tag new">NEW</span><span class="tag">Private URL only</span></div>
+    </div>
+    <div class="mockup-arrow">→</div>
+  </a>
+
+  <a class="mockup-card" href="manage-offer-mockup.html">
+    <div class="mockup-num">4</div>
+    <div class="mockup-body">
+      <p class="mockup-title">Manage Offer page</p>
+      <p class="mockup-desc">Test offers <em>do not</em> appear in the Live tab. Failed (4xx) or expired (48h auto-delete) test offers land in the <strong>Delisted</strong> tab with a "Test offer" badge.</p>
+      <div class="tags"><span class="tag">Delisted tab</span></div>
+    </div>
+    <div class="mockup-arrow">→</div>
+  </a>
+
+  <div class="flow-tip">
+    <strong>💡 How to review:</strong> Open mockup #1 and click the red <strong>+ Create test offer</strong> button — it opens mockup #2 in a new tab so you can walk the seller's journey end-to-end. Drop comments in the Shortcut story or the Slack thread.
+  </div>
+
+  <footer>
+    Mockups by Lim Pei Yee (BA) · Source: <a href="https://github.com/peiyeelim-ba/g2g-api-flow-mockup" style="color:#6e6e73;">github.com/peiyeelim-ba/g2g-api-flow-mockup</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
