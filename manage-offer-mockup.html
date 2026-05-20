@@ -178,6 +178,26 @@
   /* Tab content switcher */
   .tab-content { display: none; }
   .tab-content.active { display: block; }
+
+  /* Action dropdown menu */
+  .action-wrapper { position: relative; display: inline-block; }
+  .action-menu {
+    position: absolute; right: 0; top: calc(100% + 4px);
+    background: #fff; border: 1px solid #ececec; border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    min-width: 160px; padding: 8px 0; z-index: 50;
+    display: none;
+  }
+  .action-menu.open { display: block; }
+  .action-menu button {
+    width: 100%; text-align: left; background: transparent; border: none;
+    padding: 10px 18px; font-size: 14px; cursor: pointer; color: #1a1a1a;
+    font-family: inherit;
+  }
+  .action-menu button:hover { background: #f5f5f7; }
+  .action-menu button.danger { color: #c8242c; }
+  .action-menu button.danger:hover { background: #fdeaea; }
+  .action-menu .menu-divider { border-top: 1px solid #ececec; margin: 6px 0; }
 </style>
 </head>
 <body>
@@ -260,7 +280,19 @@
             <td>MYR</td>
             <td><a class="link-action">15.00</a></td>
             <td>0</td>
-            <td><button class="action-dots">⋮</button></td>
+            <td>
+              <div class="action-wrapper">
+                <button class="action-dots" onclick="toggleMenu(event,this)">⋮</button>
+                <div class="action-menu">
+                  <button>Edit</button>
+                  <button>Publish</button>
+                  <button>Upload code</button>
+                  <button>View code</button>
+                  <div class="menu-divider"></div>
+                  <button class="danger">Remove</button>
+                </div>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -312,7 +344,19 @@
             <td>17 May 2026, 09:24 AM</td>
             <td>MYR</td>
             <td>1.00</td>
-            <td><button class="action-dots">⋮</button></td>
+            <td>
+              <div class="action-wrapper">
+                <button class="action-dots" onclick="toggleMenu(event,this)">⋮</button>
+                <div class="action-menu">
+                  <button>Edit</button>
+                  <button>Publish</button>
+                  <button>Upload code</button>
+                  <button>View code</button>
+                  <div class="menu-divider"></div>
+                  <button class="danger">Remove</button>
+                </div>
+              </div>
+            </td>
           </tr>
           <tr>
             <td><span class="checkbox"></span></td>
@@ -332,7 +376,19 @@
             <td>16 May 2026, 16:30 PM</td>
             <td>MYR</td>
             <td>1.00</td>
-            <td><button class="action-dots">⋮</button></td>
+            <td>
+              <div class="action-wrapper">
+                <button class="action-dots" onclick="toggleMenu(event,this)">⋮</button>
+                <div class="action-menu">
+                  <button>Edit</button>
+                  <button>Publish</button>
+                  <button>Upload code</button>
+                  <button>View code</button>
+                  <div class="menu-divider"></div>
+                  <button class="danger">Remove</button>
+                </div>
+              </div>
+            </td>
           </tr>
           <tr>
             <td><span class="checkbox"></span></td>
@@ -350,7 +406,19 @@
             <td>12 May 2026, 18:02 PM</td>
             <td>MYR</td>
             <td>85.00</td>
-            <td><button class="action-dots">⋮</button></td>
+            <td>
+              <div class="action-wrapper">
+                <button class="action-dots" onclick="toggleMenu(event,this)">⋮</button>
+                <div class="action-menu">
+                  <button>Edit</button>
+                  <button>Publish</button>
+                  <button>Upload code</button>
+                  <button>View code</button>
+                  <div class="menu-divider"></div>
+                  <button class="danger">Remove</button>
+                </div>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -376,6 +444,17 @@
     e.currentTarget.classList.add('active');
     document.getElementById('tab-' + name).classList.add('active');
   }
+
+  function toggleMenu(e, btn) {
+    e.stopPropagation();
+    const menu = btn.nextElementSibling;
+    const isOpen = menu.classList.contains('open');
+    document.querySelectorAll('.action-menu.open').forEach(m => m.classList.remove('open'));
+    if (!isOpen) menu.classList.add('open');
+  }
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.action-menu.open').forEach(m => m.classList.remove('open'));
+  });
 </script>
 
 </body>
