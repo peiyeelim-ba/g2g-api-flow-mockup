@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>G2G — Create Test Offer (Mockup)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1a1a1a;
+  }
+
+  /* Top nav */
+  .topnav { background: #fff; height: 64px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid #ececec; justify-content: space-between; }
+  .logo { background: #ee1c25; color: #fff; font-weight: 800; padding: 6px 10px; border-radius: 6px; font-size: 18px; letter-spacing: -0.5px; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .region-pill { background: #f3f3f5; border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+  .shop-now { background: #ee1c25; color: #fff; border: none; padding: 8px 18px; border-radius: 999px; font-weight: 600; cursor: pointer; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 50%; background: #f3f3f5; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+  .badge { position: absolute; top: -2px; right: -2px; background: #ee1c25; color: #fff; font-size: 10px; border-radius: 999px; padding: 1px 5px; font-weight: 700; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#ffb37a,#ff7a48); border: 2px solid #fff; box-shadow: 0 0 0 2px #4ed26b; }
+
+  /* Page */
+  .page { max-width: 1100px; margin: 0 auto; padding: 28px 24px 100px; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-size: 13px; color: #6e6e73; margin-bottom: 12px; }
+  .breadcrumb a { color: #6e6e73; text-decoration: none; }
+  .breadcrumb a:hover { color: #ee1c25; }
+
+  /* Header */
+  .page-title { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  h1 { font-size: 26px; margin: 0; font-weight: 700; }
+  .test-pill {
+    background: #fff4e0; color: #c87a00; padding: 4px 12px;
+    border-radius: 999px; font-size: 12px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .test-pill::before { content: "🧪"; }
+
+  /* Steps */
+  .stepper { display: flex; align-items: center; gap: 12px; margin: 20px 0 28px; }
+  .step-item { display: flex; align-items: center; gap: 8px; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%; background: #d0d0d5; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .step-item.active .step-num { background: #ee1c25; }
+  .step-item.done .step-num { background: #1f8a4c; }
+  .step-item.done .step-num::before { content: "✓"; }
+  .step-item.done .step-num span { display: none; }
+  .step-label { font-size: 14px; color: #6e6e73; font-weight: 500; }
+  .step-item.active .step-label { color: #1a1a1a; font-weight: 600; }
+  .step-line { flex: 0 0 60px; height: 2px; background: #d0d0d5; }
+  .step-line.done { background: #1f8a4c; }
+
+  /* Top notice */
+  .notice {
+    background: #fff4e0; border-left: 4px solid #c87a00;
+    padding: 14px 18px; border-radius: 4px; font-size: 13.5px; color: #5e4500;
+    margin-bottom: 24px; line-height: 1.55;
+  }
+  .notice strong { color: #c87a00; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  /* Card */
+  .card { background: #fff; border-radius: 8px; padding: 28px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); margin-bottom: 20px; }
+  .card-section-title { font-size: 18px; font-weight: 700; margin: 0 0 20px; }
+
+  /* Field rows */
+  .field-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; margin-bottom: 20px; align-items: start; }
+  .field-label { font-size: 14px; color: #1a1a1a; padding-top: 10px; }
+  .field-label.required::after { content: " *"; color: #ee1c25; }
+  .field-value-readonly { padding-top: 10px; font-size: 14px; color: #1a1a1a; font-weight: 500; }
+
+  /* Inputs */
+  .input, .textarea, .select {
+    width: 100%; padding: 10px 14px; border: 1px solid #d0d0d5; border-radius: 6px;
+    font-size: 14px; font-family: inherit; background: #fff;
+  }
+  .input:focus, .textarea:focus, .select:focus { outline: none; border-color: #1a1a1a; }
+  .textarea { min-height: 100px; resize: vertical; }
+  .input.error, .textarea.error { border-color: #c8242c; background: #fff5f5; }
+  .char-count { text-align: right; font-size: 12px; color: #6e6e73; margin-top: 4px; }
+
+  /* Locked field */
+  .locked-input {
+    background: #f5f5f7; border: 1px solid #ececec; color: #1a1a1a;
+    padding: 10px 40px 10px 14px; border-radius: 6px; font-size: 14px;
+    position: relative; cursor: not-allowed; min-height: 41px;
+    display: flex; align-items: center;
+  }
+  .locked-textarea {
+    background: #f5f5f7; border: 1px solid #ececec; color: #1a1a1a;
+    padding: 12px 40px 12px 14px; border-radius: 6px; font-size: 14px;
+    position: relative; cursor: not-allowed; min-height: 90px; line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .lock-icon {
+    position: absolute; right: 12px; top: 12px;
+    color: #6e6e73; font-size: 14px;
+  }
+  .locked-hint {
+    font-size: 12px; color: #6e6e73; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  /* Error message */
+  .error-msg {
+    color: #c8242c; font-size: 13px; margin-top: 6px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .error-msg::before { content: "⚠"; }
+
+  /* Price input */
+  .price-input-wrap {
+    display: flex; align-items: center; border: 1px solid #d0d0d5; border-radius: 6px;
+    width: 200px; overflow: hidden;
+  }
+  .price-input-wrap.error { border-color: #c8242c; background: #fff5f5; }
+  .price-input-wrap.locked { background: #f5f5f7; border-color: #ececec; }
+  .price-prefix {
+    padding: 10px 12px; background: #fafafb; border-right: 1px solid #ececec;
+    font-size: 14px; font-weight: 500; color: #1a1a1a;
+  }
+  .price-input { border: none; padding: 10px 14px; font-size: 14px; flex: 1; background: transparent; }
+  .price-input:focus { outline: none; }
+  .price-input:disabled { color: #1a1a1a; cursor: not-allowed; }
+
+  /* Radio rows */
+  .radio-row { display: flex; align-items: center; gap: 10px; padding: 14px 0; }
+  .radio {
+    width: 18px; height: 18px; border: 2px solid #d0d0d5; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .radio.checked { border-color: #ee1c25; }
+  .radio.checked::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #ee1c25; }
+  .radio-disabled { border-color: #d0d0d5; opacity: 0.5; }
+  .radio-label { font-size: 14px; }
+  .radio-label.disabled { color: #6e6e73; }
+  .divider { border-top: 1px solid #ececec; margin: 8px 0; }
+
+  /* Sidebar tips */
+  .sidebar { position: sticky; top: 84px; }
+  .tips-card { background: transparent; padding: 0; }
+  .tips-card ul { padding-left: 18px; margin: 0; }
+  .tips-card li { font-size: 13px; color: #5e5e63; margin-bottom: 14px; line-height: 1.55; }
+  .tips-title {
+    font-size: 12px; font-weight: 700; color: #c87a00; text-transform: uppercase;
+    letter-spacing: 0.5px; margin: 0 0 10px;
+  }
+
+  /* Footer actions */
+  .footer-actions {
+    background: #fff; border-top: 1px solid #ececec; padding: 16px 0;
+    position: sticky; bottom: 0; margin-top: 24px;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    display: flex; justify-content: flex-end; gap: 12px;
+  }
+  .btn-primary {
+    background: #ee1c25; color: #fff; border: none; padding: 11px 28px;
+    border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer;
+  }
+  .btn-primary:hover { background: #d6171f; }
+  .btn-secondary {
+    background: #fff; color: #1a1a1a; border: 1px solid #d0d0d5;
+    padding: 11px 24px; border-radius: 999px; font-weight: 500; font-size: 14px; cursor: pointer;
+  }
+
+  /* Step 1 — category cards */
+  .category-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    margin-top: 8px;
+  }
+  .cat-card {
+    border: 2px solid #ececec; border-radius: 10px; padding: 24px;
+    cursor: pointer; transition: 0.15s; background: #fff;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .cat-card:hover { border-color: #ee1c25; box-shadow: 0 4px 12px rgba(238,28,37,0.08); }
+  .cat-card.selected { border-color: #ee1c25; background: #fff8f8; }
+  .cat-icon {
+    width: 48px; height: 48px; border-radius: 10px; background: #fff4e0;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 24px;
+    flex-shrink: 0;
+  }
+  .cat-title { font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+  .cat-desc { font-size: 13px; color: #6e6e73; line-height: 1.5; margin: 0; }
+
+  /* Step switcher */
+  .step-content { display: none; }
+  .step-content.active { display: block; }
+
+  /* Mockup label */
+  .mockup-label {
+    position: fixed; top: 12px; right: 12px;
+    background: #1a1a1a; color: #fff; padding: 6px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* Step toggle */
+  .step-toggle {
+    position: fixed; bottom: 20px; left: 20px; z-index: 100;
+    background: #1a1a1a; color: #fff; padding: 8px 16px; border-radius: 999px;
+    font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex; gap: 8px;
+  }
+  .step-toggle button {
+    background: transparent; color: #fff; border: 1px solid #444;
+    padding: 4px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+  }
+  .step-toggle button.active { background: #ee1c25; border-color: #ee1c25; }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">MOCKUP — Create Test Offer flow</div>
+
+<!-- Step nav toggle for preview -->
+<div class="step-toggle">
+  <span style="padding:4px 0;">View:</span>
+  <button id="btn-step1" class="active" onclick="goStep(1)">Step 1: Category</button>
+  <button id="btn-step2" onclick="goStep(2)">Step 2: Offer details</button>
+</div>
+
+<div class="topnav">
+  <div class="logo">G2G.</div>
+  <div class="nav-right">
+    <div class="region-pill">🇲🇾 MY</div>
+    <button class="shop-now">Shop now</button>
+    <div class="icon-btn">💬</div>
+    <div class="icon-btn">🔔<span class="badge">4</span></div>
+    <div class="avatar"></div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="#">API Integration</a> &nbsp;›&nbsp; <a href="#">Test offers</a> &nbsp;›&nbsp; <span style="color:#1a1a1a;">Create test offer</span>
+  </div>
+
+  <div class="page-title">
+    <h1>Create test offer</h1>
+    <span class="test-pill">Test offer — locked template</span>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper">
+    <div class="step-item active" id="s1">
+      <span class="step-num"><span>1</span></span>
+      <span class="step-label">Select category</span>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-item" id="s2">
+      <span class="step-num"><span>2</span></span>
+      <span class="step-label">Offer details</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" id="s3">
+      <span class="step-num"><span>3</span></span>
+      <span class="step-label">Review & publish</span>
+    </div>
+  </div>
+
+  <!-- ====================== STEP 1: CATEGORY ====================== -->
+  <div class="step-content active" id="step-1">
+    <div class="notice">
+      <strong>This is an API verification test.</strong>
+      Choose the service category you want to verify your API for. The Test Offer will be locked to a fixed title, description, price ($1.00) and quantity (1). Buyers cannot see this listing — only you can complete the purchase from your linked secondary account.
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="card">
+          <h2 class="card-section-title">Which service category do you want to verify?</h2>
+          <p style="font-size:13px; color:#6e6e73; margin-top:-12px; margin-bottom:20px;">
+            One successful test unlocks Instant Delivery across all your offers.
+          </p>
+
+          <div class="category-grid">
+            <div class="cat-card selected" onclick="selectCat(this)">
+              <div class="cat-icon">🎁</div>
+              <div>
+                <p class="cat-title">Gift Card / Digital Pin</p>
+                <p class="cat-desc">For sellers offering pre-paid codes, gift cards, vouchers, or digital PINs delivered via API.</p>
+              </div>
+            </div>
+            <div class="cat-card" onclick="selectCat(this)">
+              <div class="cat-icon">💎</div>
+              <div>
+                <p class="cat-title">Top Up</p>
+                <p class="cat-desc">For sellers fulfilling direct top-up requests (game currency, mobile credit) via account ID.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px; padding:14px 16px; background:#f7faff; border-left:3px solid #3b6fe4; border-radius:4px; font-size:13px; color:#3a3a3f; line-height:1.55;">
+            <strong>Note:</strong> Verification on any category unlocks "Instant Delivery" across all your offers globally — you only need to pass one test.
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="tips-card">
+          <div class="tips-title">⚠ Before you continue</div>
+          <ul>
+            <li>Your API endpoint must already be coded to receive G2G order events and return a Success payload.</li>
+            <li>You will need a linked secondary buyer account to purchase the test offer.</li>
+            <li>You will be charged $1.00 (non-refundable) to cover payment gateway fees on the test transaction.</li>
+            <li>Test offers auto-delete after 48 hours if not purchased.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== STEP 2: OFFER DETAILS ====================== -->
+  <div class="step-content" id="step-2">
+    <div class="notice">
+      <strong>Locked Test Offer template.</strong>
+      Fields shown with a 🔒 icon are hardcoded by the system and cannot be edited. This ensures your test does not interfere with real listings or buyers. Once published, this offer is hidden from the public marketplace and only accessible via a direct URL.
+    </div>
+
+    <div class="layout">
+      <div>
+        <!-- Offer details card -->
+        <div class="card">
+          <h2 class="card-section-title">Offer details</h2>
+
+          <div class="field-row">
+            <div class="field-label">Service</div>
+            <div class="field-value-readonly">Gift Card / Digital Pin <span style="color:#6e6e73;font-weight:400;">(selected in Step 1)</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Brand</div>
+            <div class="field-value-readonly">OffGamers</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Region</div>
+            <div class="field-value-readonly">MY</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field-row" style="margin-top:20px;">
+            <div class="field-label required">Title</div>
+            <div>
+              <div class="locked-input">
+                Offgamers Gift Card 100 (This is a Test Offer!!)
+                <span class="lock-icon">🔒</span>
+              </div>
+              <div class="locked-hint">🔒 System-generated. Cannot be edited.</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-label">Description</div>
+            <div>
+              <div class="locked-textarea">This offer is just for testing — please do NOT purchase this listing.
+
+This is an API integration verification test. Only the seller's verified secondary account can complete this purchase.<span class="lock-icon">🔒</span></div>
+              <div class="locked-hint">🔒 System-generated. Cannot be edited.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing card -->
+        <div class="card">
+          <h2 class="card-section-title">Pricing</h2>
+
+          <div class="field-row">
+            <div class="field-label required">Default price (unit)</div>
+            <div>
+              <div class="price-input-wrap error" style="width:240px;">
+                <span class="price-prefix">USD</span>
+                <input class="price-input" type="text" value="5.00" />
+                <span class="lock-icon" style="position:static;padding-right:12px;">🔒</span>
+              </div>
+              <div class="error-msg">Test offer price is fixed at USD $1.00. Please enter $1.00.</div>
+              <div class="locked-hint">🔒 Test offer price is hardcoded to USD $1.00 to minimise payment gateway fees.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery method card -->
+        <div class="card">
+          <h2 class="card-section-title">Delivery method</h2>
+
+          <div class="radio-row">
+            <div class="radio radio-disabled"></div>
+            <div class="radio-label disabled">Auto delivery <span style="color:#6e6e73;">(disabled for test offers)</span></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field-row" style="margin-top:16px;">
+            <div class="field-label required">Minimum purchase quantity</div>
+            <div>
+              <div class="price-input-wrap error" style="width:120px;">
+                <input class="price-input" type="text" value="3" />
+                <span class="lock-icon" style="position:static;padding-right:12px;">🔒</span>
+              </div>
+              <div class="error-msg">Test offer minimum purchase is locked to 1. Please enter 1.</div>
+              <div class="locked-hint">🔒 Quantity is hardcoded to 1 — a single transaction is sufficient to verify your API.</div>
+            </div>
+          </div>
+
+          <div class="divider" style="margin-top:20px;"></div>
+
+          <h3 style="font-size:16px; font-weight:700; margin: 20px 0 8px;">Delivery speed</h3>
+
+          <div class="radio-row">
+            <div class="radio checked"></div>
+            <div class="radio-label">
+              <strong>Instant delivery</strong>
+              <span style="color:#6e6e73; margin-left:8px;">— required for API verification</span>
+            </div>
+            <span class="lock-icon" style="position:static; margin-left:auto;">🔒</span>
+          </div>
+          <div class="locked-hint" style="margin-left:28px;">🔒 Only "Instant delivery" is allowed for test offers — this is what we are verifying.</div>
+        </div>
+
+        <!-- Wholesale (disabled) -->
+        <div class="card" style="opacity:0.55;">
+          <h2 class="card-section-title">Wholesale</h2>
+          <div style="font-size:13px; color:#6e6e73; margin-bottom:12px;">
+            Not available for test offers.
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:16px; height:16px; border:1.5px solid #d0d0d5; border-radius:3px; background:#f5f5f7;"></div>
+            <span style="font-size:14px; color:#6e6e73;">Create a wholesale offer</span>
+            <span class="lock-icon" style="position:static; margin-left:auto;">🔒</span>
+          </div>
+        </div>
+
+        <!-- Region (locked) -->
+        <div class="card">
+          <h2 class="card-section-title">Country / region to sell this offer</h2>
+          <div style="font-size:13px; color:#6e6e73; margin-bottom:16px;">
+            Test offers are hidden from the public marketplace. Visibility is locked to your own account only.
+          </div>
+          <div class="radio-row">
+            <div class="radio checked"></div>
+            <div class="radio-label"><strong>Private (seller-only direct URL)</strong></div>
+            <span class="lock-icon" style="position:static; margin-left:auto;">🔒</span>
+          </div>
+          <div class="radio-row">
+            <div class="radio radio-disabled"></div>
+            <div class="radio-label disabled">Global</div>
+          </div>
+          <div class="radio-row">
+            <div class="radio radio-disabled"></div>
+            <div class="radio-label disabled">Sell in specific country / region</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar tips -->
+      <div class="sidebar">
+        <div class="tips-card">
+          <div class="tips-title">🔒 Why fields are locked</div>
+          <ul>
+            <li><strong>Title & Description</strong> — to make the listing instantly recognisable as a test and discourage real buyers from purchasing.</li>
+            <li><strong>Price USD $1.00</strong> — kept to the minimum to reduce real-money exposure and payment gateway fees.</li>
+            <li><strong>Quantity 1</strong> — a single successful delivery payload is enough to verify your API integration.</li>
+            <li><strong>Instant delivery only</strong> — this is exactly what we're verifying. Manual delivery would defeat the test.</li>
+          </ul>
+          <div class="tips-title" style="margin-top:24px;">💡 What happens next</div>
+          <ul>
+            <li>After publishing, you'll receive a private direct URL.</li>
+            <li>Open the URL from your linked secondary account and complete the purchase.</li>
+            <li>If your API endpoint returns a Success payload, "Instant Delivery" is unlocked across all your offers.</li>
+            <li>The test offer is then auto-deleted.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="footer-actions">
+      <div class="footer-inner">
+        <button class="btn-secondary" onclick="goStep(1)">← Back</button>
+        <button class="btn-secondary">Discard</button>
+        <button class="btn-primary" disabled style="opacity:0.5;cursor:not-allowed;">Publish test offer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1 footer -->
+  <div class="footer-actions" id="step-1-footer">
+    <div class="footer-inner">
+      <button class="btn-secondary">Cancel</button>
+      <button class="btn-primary" onclick="goStep(2)">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function selectCat(el) {
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+  function goStep(n) {
+    document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('step-' + n).classList.add('active');
+
+    const s1 = document.getElementById('s1'), s2 = document.getElementById('s2'), line1 = document.getElementById('line1');
+    s1.classList.remove('active','done'); s2.classList.remove('active','done'); line1.classList.remove('done');
+
+    if (n === 1) {
+      s1.classList.add('active');
+      document.getElementById('step-1-footer').style.display = 'block';
+    } else {
+      s1.classList.add('done'); line1.classList.add('done'); s2.classList.add('active');
+      document.getElementById('step-1-footer').style.display = 'none';
+    }
+
+    document.getElementById('btn-step1').classList.toggle('active', n === 1);
+    document.getElementById('btn-step2').classList.toggle('active', n === 2);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

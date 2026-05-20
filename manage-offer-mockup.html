@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>G2G — Manage Offer (Mockup)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1a1a1a;
+  }
+
+  /* Top nav */
+  .topnav {
+    background: #fff; height: 64px; display: flex; align-items: center;
+    padding: 0 32px; border-bottom: 1px solid #ececec; justify-content: space-between;
+  }
+  .logo { background: #ee1c25; color: #fff; font-weight: 800; padding: 6px 10px; border-radius: 6px; font-size: 18px; letter-spacing: -0.5px; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .region-pill { background: #f3f3f5; border-radius: 999px; padding: 6px 14px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+  .shop-now { background: #ee1c25; color: #fff; border: none; padding: 8px 18px; border-radius: 999px; font-weight: 600; cursor: pointer; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 50%; background: #f3f3f5; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+  .badge { position: absolute; top: -2px; right: -2px; background: #ee1c25; color: #fff; font-size: 10px; border-radius: 999px; padding: 1px 5px; font-weight: 700; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#ffb37a,#ff7a48); border: 2px solid #fff; box-shadow: 0 0 0 2px #4ed26b; }
+
+  /* Page */
+  .page { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  /* Service selector row */
+  .service-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .service-label { color: #6e6e73; font-size: 14px; }
+  .service-pill {
+    border: 1px solid #d0d0d5; padding: 8px 18px; border-radius: 999px;
+    background: #fff; font-size: 14px; cursor: pointer; color: #1a1a1a;
+  }
+  .service-pill.active { background: #fff; color: #ee1c25; border-color: #ee1c25; font-weight: 600; }
+
+  /* Title row */
+  .title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+  h1 { font-size: 28px; margin: 0; font-weight: 700; }
+  .btn-primary {
+    background: #ee1c25; color: #fff; border: none; padding: 11px 22px;
+    border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #d6171f; }
+  .btn-primary .plus {
+    width: 18px; height: 18px; border-radius: 50%; background: #fff; color: #ee1c25;
+    display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: 32px; border-bottom: 1px solid #ececec; padding: 0 4px; margin-bottom: 24px;
+  }
+  .tab {
+    padding: 14px 0; font-size: 15px; color: #6e6e73; cursor: pointer;
+    border-bottom: 2px solid transparent; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .tab.active { color: #ee1c25; border-bottom-color: #ee1c25; font-weight: 600; }
+  .tab .tab-pill {
+    background: #fdeaea; color: #ee1c25; border-radius: 999px;
+    padding: 1px 8px; font-size: 12px; font-weight: 600;
+  }
+  .tab:not(.active) .tab-pill { background: #f3f3f5; color: #6e6e73; }
+  .tab-new {
+    background: #1a1a1a; color: #fff; font-size: 9px; font-weight: 700;
+    padding: 2px 6px; border-radius: 3px; letter-spacing: 0.3px; margin-left: 4px;
+  }
+
+  /* Card */
+  .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+
+  /* Filter row */
+  .filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .search-box {
+    flex: 1; max-width: 280px; position: relative;
+  }
+  .search-box input {
+    width: 100%; padding: 10px 38px 10px 14px; border: 1px solid #d0d0d5; border-radius: 6px;
+    font-size: 14px;
+  }
+  .search-box .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #6e6e73; }
+  .select-box {
+    padding: 10px 36px 10px 14px; border: 1px solid #d0d0d5; border-radius: 6px;
+    font-size: 14px; background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M0 0l5 6 5-6z' fill='%236e6e73'/></svg>") no-repeat right 14px center;
+    appearance: none; cursor: pointer; min-width: 160px;
+  }
+  .btn-secondary {
+    background: #fff; color: #1a1a1a; border: 1px solid #d0d0d5;
+    padding: 9px 18px; border-radius: 6px; font-weight: 500; font-size: 14px; cursor: pointer;
+    margin-left: auto;
+  }
+
+  /* Results meta */
+  .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; color: #6e6e73; }
+  .sort-control { display: inline-flex; align-items: center; gap: 8px; }
+  .sort-value { color: #1a1a1a; font-weight: 500; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-weight: 500; color: #6e6e73; font-size: 13px; padding: 14px 12px; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; background: #fafafb; }
+  td { padding: 18px 12px; border-bottom: 1px solid #f3f3f5; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .mono { font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; font-size: 12px; color: #6e6e73; }
+  .checkbox { width: 16px; height: 16px; border: 1.5px solid #d0d0d5; border-radius: 3px; display: inline-block; vertical-align: middle; }
+
+  /* Title cell */
+  .title-cell { display: flex; align-items: center; gap: 12px; }
+  .offer-thumb {
+    width: 40px; height: 40px; border-radius: 6px; background: #f3f3f5;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .offer-thumb.test { background: #fff4e0; }
+  .offer-meta-line { font-size: 12px; color: #6e6e73; margin-top: 2px; }
+  .offer-title { font-weight: 500; color: #1a1a1a; }
+
+  /* Stock pill */
+  .stock-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    background: #fdeaea; color: #c8242c; font-size: 11px; font-weight: 600; margin-top: 4px;
+  }
+
+  /* Status pills */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill-pending { background: #fff4e0; color: #c87a00; }
+  .pill-purchased { background: #e6f0ff; color: #1e63d6; }
+  .pill-verified { background: #e6f7ec; color: #1f8a4c; }
+  .pill-expired { background: #f3f3f5; color: #6e6e73; }
+  .pill-failed { background: #fdeaea; color: #c8242c; }
+
+  /* Action menu */
+  .action-dots {
+    width: 32px; height: 32px; border-radius: 50%; background: transparent;
+    border: none; cursor: pointer; font-size: 18px; color: #6e6e73;
+  }
+  .action-dots:hover { background: #f3f3f5; }
+
+  /* Info banner for test offer tab */
+  .info-banner {
+    background: #f7faff; border-left: 3px solid #3b6fe4;
+    padding: 14px 18px; border-radius: 4px; font-size: 13px; color: #3a3a3f;
+    margin-bottom: 20px; line-height: 1.55;
+  }
+  .info-banner strong { color: #1a1a1a; }
+
+  /* Countdown */
+  .countdown { display: flex; flex-direction: column; gap: 2px; }
+  .countdown-time { font-weight: 600; color: #1a1a1a; font-size: 13px; }
+  .countdown-warn { color: #c87a00; }
+  .countdown-sub { font-size: 11px; color: #6e6e73; }
+
+  /* Link */
+  .link-action { color: #3b6fe4; font-size: 13px; cursor: pointer; text-decoration: none; }
+
+  /* Mockup label */
+  .mockup-label {
+    position: fixed; top: 12px; right: 12px;
+    background: #1a1a1a; color: #fff; padding: 6px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center; padding: 64px 24px; color: #6e6e73;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+
+  /* Tab content switcher */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">MOCKUP — Manage Offer (failed test offers in Delisted)</div>
+
+<div class="topnav">
+  <div class="logo">G2G.</div>
+  <div class="nav-right">
+    <div class="region-pill">🇲🇾 MY</div>
+    <button class="shop-now">Shop now</button>
+    <div class="icon-btn">💬</div>
+    <div class="icon-btn">🔔<span class="badge">4</span></div>
+    <div class="avatar"></div>
+  </div>
+</div>
+
+<div class="page">
+  <!-- Service selector -->
+  <div class="service-row">
+    <span class="service-label">Select service</span>
+    <button class="service-pill active">Gift Cards (2)</button>
+    <button class="service-pill">Items (1)</button>
+    <button class="service-pill">GamePal (3)</button>
+    <button class="service-pill">Coaching (2)</button>
+  </div>
+
+  <!-- Title -->
+  <div class="title-row">
+    <h1>Manage offer</h1>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab" onclick="switchTab(event,'live')">Live <span class="tab-pill">1</span></div>
+    <div class="tab active" onclick="switchTab(event,'delisted')">Delisted <span class="tab-pill">3</span></div>
+    <div class="tab" onclick="switchTab(event,'modification')">Requires Modification <span class="tab-pill">1</span></div>
+  </div>
+
+  <!-- LIVE TAB -->
+  <div class="tab-content" id="tab-live">
+    <div class="card">
+      <div class="filter-row">
+        <div class="search-box"><input type="text" placeholder="Search title or offer number"/><span class="search-icon">🔍</span></div>
+        <select class="select-box"><option>Gift Cards (1)</option></select>
+        <select class="select-box"><option>All brands</option></select>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;"><input type="checkbox"/> Out of stock only</label>
+        <button class="btn-secondary">Batch update</button>
+      </div>
+      <div class="results-meta">
+        <span>Showing 1–1 of 1</span>
+        <span class="sort-control">Sort by: <span class="sort-value">Highest sales ▾</span></span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32px;"><span class="checkbox"></span></th>
+            <th>Title</th>
+            <th>Stock ⓘ</th>
+            <th>Currency</th>
+            <th>Unit price</th>
+            <th>Sale ⓘ</th>
+            <th style="width:60px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="checkbox"></span></td>
+            <td>
+              <div class="title-cell">
+                <div class="offer-thumb">🎁</div>
+                <div>
+                  <div class="offer-title">iTunes Gift Card USD 50</div>
+                  <div class="offer-meta-line mono">#G1777339932062LN</div>
+                  <div class="offer-meta-line">Gift Cards – Apple iTunes – US</div>
+                </div>
+              </div>
+            </td>
+            <td>0<div class="stock-pill">Out of stock</div></td>
+            <td>MYR</td>
+            <td><a class="link-action">15.00</a></td>
+            <td>0</td>
+            <td><button class="action-dots">⋮</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DELISTED TAB -->
+  <div class="tab-content active" id="tab-delisted">
+    <div class="card">
+      <div class="filter-row">
+        <div class="search-box"><input type="text" placeholder="Search title or offer number"/><span class="search-icon">🔍</span></div>
+        <select class="select-box"><option>Gift Cards (2)</option></select>
+        <select class="select-box"><option>All brands</option></select>
+        <select class="select-box"><option>Reason: All</option></select>
+        <button class="btn-secondary">Batch update</button>
+      </div>
+      <div class="results-meta">
+        <span>Showing 1–3 of 3</span>
+        <span class="sort-control">Sort by: <span class="sort-value">Most recent ▾</span></span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32px;"><span class="checkbox"></span></th>
+            <th>Title</th>
+            <th>Reason</th>
+            <th>Delisted on</th>
+            <th>Currency</th>
+            <th>Unit price</th>
+            <th style="width:60px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="checkbox"></span></td>
+            <td>
+              <div class="title-cell">
+                <div class="offer-thumb test">🧪</div>
+                <div>
+                  <div class="offer-title">API Integration Testing
+                    <span class="pill pill-failed" style="margin-left:8px;">Test offer</span>
+                  </div>
+                  <div class="offer-meta-line mono">#TST-20260517-0002</div>
+                  <div class="offer-meta-line">Gift Cards – Digital Pin – API Verification</div>
+                </div>
+              </div>
+            </td>
+            <td>API delivery failed (4xx)</td>
+            <td>17 May 2026, 09:24 AM</td>
+            <td>MYR</td>
+            <td>1.00</td>
+            <td><button class="action-dots">⋮</button></td>
+          </tr>
+          <tr>
+            <td><span class="checkbox"></span></td>
+            <td>
+              <div class="title-cell">
+                <div class="offer-thumb test">🧪</div>
+                <div>
+                  <div class="offer-title">API Integration Testing
+                    <span class="pill pill-expired" style="margin-left:8px;">Test offer</span>
+                  </div>
+                  <div class="offer-meta-line mono">#TST-20260514-0001</div>
+                  <div class="offer-meta-line">Gift Cards – Top Up – API Verification</div>
+                </div>
+              </div>
+            </td>
+            <td>Auto-deleted (48h expiry, not purchased)</td>
+            <td>16 May 2026, 16:30 PM</td>
+            <td>MYR</td>
+            <td>1.00</td>
+            <td><button class="action-dots">⋮</button></td>
+          </tr>
+          <tr>
+            <td><span class="checkbox"></span></td>
+            <td>
+              <div class="title-cell">
+                <div class="offer-thumb">🎁</div>
+                <div>
+                  <div class="offer-title">Steam Wallet Code USD 20</div>
+                  <div class="offer-meta-line mono">#G1645223891003LN</div>
+                  <div class="offer-meta-line">Gift Cards – Steam – Global</div>
+                </div>
+              </div>
+            </td>
+            <td>Seller delisted</td>
+            <td>12 May 2026, 18:02 PM</td>
+            <td>MYR</td>
+            <td>85.00</td>
+            <td><button class="action-dots">⋮</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REQUIRES MODIFICATION TAB -->
+  <div class="tab-content" id="tab-modification">
+    <div class="card">
+      <div class="empty">
+        <div class="empty-icon">📝</div>
+        <div>1 offer requires modification.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(e, name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>G2G — API Integration</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1a1a1a;
+  }
+
+  /* Top nav */
+  .topnav {
+    background: #fff;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    border-bottom: 1px solid #ececec;
+    justify-content: space-between;
+  }
+  .logo {
+    background: #ee1c25;
+    color: #fff;
+    font-weight: 800;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+  }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .region-pill {
+    background: #f3f3f5; border-radius: 999px;
+    padding: 6px 14px; font-size: 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .shop-now {
+    background: #ee1c25; color: #fff; border: none;
+    padding: 8px 18px; border-radius: 999px; font-weight: 600; cursor: pointer;
+  }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #f3f3f5; display: inline-flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .badge {
+    position: absolute; top: -2px; right: -2px;
+    background: #ee1c25; color: #fff; font-size: 10px;
+    border-radius: 999px; padding: 1px 5px; font-weight: 700;
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#ffb37a,#ff7a48);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px #4ed26b;
+  }
+
+  /* Page */
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  h1 { font-size: 28px; margin: 0 0 24px; font-weight: 700; }
+
+  /* Banner */
+  .banner {
+    background: #3b6fe4; color: #fff; padding: 16px 20px; border-radius: 8px; margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .banner a { color: #fff; text-decoration: underline; font-weight: 600; }
+
+  /* Card */
+  .card {
+    background: #fff; border-radius: 8px; padding: 24px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+  }
+  .card-title { font-size: 18px; font-weight: 700; margin: 0; }
+  .card-subtitle { font-size: 13px; color: #6e6e73; margin: 4px 0 0; }
+
+  .btn-primary {
+    background: #ee1c25; color: #fff; border: none; padding: 10px 18px;
+    border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { background: #d6171f; }
+  .btn-secondary {
+    background: #fff; color: #1a1a1a; border: 1px solid #d0d0d5;
+    padding: 8px 16px; border-radius: 999px; font-weight: 500; font-size: 13px; cursor: pointer;
+  }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    text-align: left; font-weight: 500; color: #6e6e73; font-size: 13px;
+    padding: 14px 12px; border-bottom: 1px solid #ececec;
+  }
+  td {
+    padding: 18px 12px; border-bottom: 1px solid #f3f3f5; vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  .mono { font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; font-size: 13px; }
+
+  /* Status pills */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  }
+  .pill::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  }
+  .pill-pending { background: #fff4e0; color: #c87a00; }
+  .pill-purchased { background: #e6f0ff; color: #1e63d6; }
+  .pill-verified { background: #e6f7ec; color: #1f8a4c; }
+  .pill-expired { background: #f3f3f5; color: #6e6e73; }
+  .pill-failed { background: #fdeaea; color: #c8242c; }
+
+  /* Toggle switch */
+  .switch { position: relative; display: inline-block; width: 38px; height: 22px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; inset: 0;
+    background: #34c759; border-radius: 999px; transition: 0.2s;
+  }
+  .slider::before {
+    content: ""; position: absolute; height: 16px; width: 16px;
+    left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.2s;
+    transform: translateX(16px);
+  }
+
+  /* Trash button */
+  .icon-action {
+    width: 36px; height: 36px; border-radius: 50%; background: #f3f3f5;
+    border: none; display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .icon-action:hover { background: #ececec; }
+
+  /* Empty state */
+  .empty {
+    text-align: center; padding: 48px 24px; color: #6e6e73; font-size: 14px;
+  }
+
+  /* Info note */
+  .info-note {
+    background: #f7faff; border-left: 3px solid #3b6fe4;
+    padding: 12px 16px; border-radius: 4px; font-size: 13px; color: #3a3a3f;
+    margin-bottom: 16px; line-height: 1.5;
+  }
+
+  /* Webhooks */
+  .field-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 16px 0; border-bottom: 1px solid #f3f3f5;
+  }
+  .field-row:last-child { border-bottom: none; }
+  .field-label { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .field-value { font-size: 13px; color: #6e6e73; }
+  .edit-link { color: #ee1c25; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; }
+  .select-box {
+    width: 280px; padding: 10px 14px; border: 1px solid #d0d0d5; border-radius: 6px;
+    font-size: 14px; background: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 12px 0;
+  }
+  .save-disabled {
+    background: #f0f0f2; color: #b0b0b5; border: none; padding: 10px 28px;
+    border-radius: 999px; font-weight: 600; font-size: 14px; cursor: not-allowed;
+    float: right;
+  }
+
+  /* Mockup label */
+  .mockup-label {
+    position: fixed; top: 12px; right: 12px;
+    background: #1a1a1a; color: #fff; padding: 6px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* Small countdown indicator */
+  .countdown {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .countdown-time { font-weight: 600; color: #1a1a1a; }
+  .countdown-warn { color: #c87a00; }
+
+  /* Action menu link */
+  .copy-url {
+    color: #3b6fe4; font-size: 13px; cursor: pointer; text-decoration: none;
+  }
+  .action-cell {
+    display: flex; align-items: center; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">MOCKUP — API Integration Enhancement</div>
+
+<!-- Top nav -->
+<div class="topnav">
+  <div class="logo">G2G.</div>
+  <div class="nav-right">
+    <div class="region-pill">🇲🇾 MY</div>
+    <button class="shop-now">Shop now</button>
+    <div class="icon-btn">💬</div>
+    <div class="icon-btn">🔔<span class="badge">4</span></div>
+    <div class="avatar"></div>
+  </div>
+</div>
+
+<div class="page">
+  <h1>API Integration</h1>
+
+  <!-- Doc banner -->
+  <div class="banner">
+    Check out our <a href="#">OpenAPI (beta) documentation ↗</a>.
+  </div>
+
+  <!-- API Keys card (existing) -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2 class="card-title">API keys</h2>
+      </div>
+      <button class="btn-primary">+ Generate key</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>API key</th>
+          <th>Created</th>
+          <th>Last activity</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">LXYNY9S2JJIBAJNROC4SVFZVISS4MQQS</td>
+          <td>20 May 2026, 15:26 PM</td>
+          <td>—</td>
+          <td>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </td>
+          <td><button class="icon-action">🗑️</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NEW: Test Offers card -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2 class="card-title">Test offers</h2>
+        <p class="card-subtitle">
+          Verify your API integration by creating a locked Test Offer and purchasing it from your linked secondary account.
+          Once a successful delivery payload is received, "Instant Delivery" will be unlocked across all your listings.
+        </p>
+      </div>
+      <a href="create-test-offer-mockup.html" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">+ Create test offer</a>
+    </div>
+
+    <div class="info-note">
+      <strong>How it works:</strong> Each Test Offer is locked to <em>Title</em>: "API Integration Testing",
+      <em>Quantity</em>: 1, <em>Price</em>: $1.00 and is hidden from the public marketplace.
+      Auto-deletes 48 hours after creation if not completed.
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Test offer ID</th>
+          <th>Service category</th>
+          <th>Price</th>
+          <th>Created</th>
+          <th>Auto-delete in</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">TST-20260520-0001</td>
+          <td>Top Up</td>
+          <td>$1.00</td>
+          <td>20 May 2026, 14:02 PM</td>
+          <td class="countdown">
+            <span class="countdown-time">47h 12m</span>
+            <span class="field-value">Awaiting purchase</span>
+          </td>
+          <td><span class="pill pill-pending">Pending purchase</span></td>
+          <td class="action-cell">
+            <a class="copy-url">Copy direct URL</a>
+            <button class="icon-action" title="Delete">🗑️</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">TST-20260519-0007</td>
+          <td>Digital Pin / Gift Card</td>
+          <td>$1.00</td>
+          <td>19 May 2026, 22:15 PM</td>
+          <td class="countdown">
+            <span class="countdown-time countdown-warn">9h 48m</span>
+            <span class="field-value">Buyer paid — awaiting API payload</span>
+          </td>
+          <td><span class="pill pill-purchased">Purchased</span></td>
+          <td class="action-cell">
+            <a class="copy-url">View order</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">TST-20260518-0003</td>
+          <td>Top Up</td>
+          <td>$1.00</td>
+          <td>18 May 2026, 11:40 AM</td>
+          <td><span class="field-value">—</span></td>
+          <td><span class="pill pill-verified">API Verified</span></td>
+          <td class="action-cell">
+            <a class="copy-url">View receipt</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">TST-20260517-0002</td>
+          <td>Digital Pin / Gift Card</td>
+          <td>$1.00</td>
+          <td>17 May 2026, 09:10 AM</td>
+          <td><span class="field-value">—</span></td>
+          <td><span class="pill pill-failed">Failed (4xx)</span></td>
+          <td class="action-cell">
+            <a class="copy-url">View error log</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono">TST-20260514-0001</td>
+          <td>Top Up</td>
+          <td>$1.00</td>
+          <td>14 May 2026, 16:30 PM</td>
+          <td><span class="field-value">Deleted</span></td>
+          <td><span class="pill pill-expired">Expired (48h)</span></td>
+          <td class="action-cell">
+            <span class="field-value">—</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Webhooks card (existing) -->
+  <div class="card">
+    <h2 class="card-title">Webhooks</h2>
+    <p class="card-subtitle" style="margin-bottom:20px;">
+      Turn on webhooks for your server to receive HTTP POST requests from G2G server in JSON format,
+      which contain information on all events within your G2G application. See our
+      <a href="#" style="color:#1a1a1a;text-decoration:underline;">documentation ↗</a> on Webhooks to learn more.
+    </p>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Developer contact</div>
+        <div class="field-value">The contact person</div>
+      </div>
+      <a class="edit-link">Edit contact</a>
+    </div>
+
+    <div style="padding-top:16px;">
+      <div class="select-box">
+        <span>Order</span>
+        <span>▾</span>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Callback URL</div>
+          <div class="field-value">Webhook URL to receive webhook events from G2G server</div>
+        </div>
+        <a class="edit-link">Edit URL</a>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button class="save-disabled">Save</button>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

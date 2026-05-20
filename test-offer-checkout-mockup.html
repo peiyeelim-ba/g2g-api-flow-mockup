@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>G2G — Test Offer Checkout Page (Mockup)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1a1a1a;
+  }
+
+  /* Top nav */
+  .topnav { background: #fff; height: 64px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid #ececec; justify-content: space-between; }
+  .logo { background: #ee1c25; color: #fff; font-weight: 800; padding: 6px 10px; border-radius: 6px; font-size: 18px; letter-spacing: -0.5px; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .region-pill { background: #f3f3f5; border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+  .create-offer-btn { background: #ee1c25; color: #fff; border: none; padding: 8px 18px; border-radius: 999px; font-weight: 600; cursor: pointer; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 50%; background: #f3f3f5; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+  .badge { position: absolute; top: -2px; right: -2px; background: #ee1c25; color: #fff; font-size: 10px; border-radius: 999px; padding: 1px 5px; font-weight: 700; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#ffb37a,#ff7a48); border: 2px solid #fff; box-shadow: 0 0 0 2px #4ed26b; }
+
+  /* Page */
+  .page { max-width: 1180px; margin: 0 auto; padding: 24px 24px 80px; }
+  .breadcrumb { font-size: 13px; color: #6e6e73; margin-bottom: 14px; }
+  .breadcrumb a { color: #6e6e73; text-decoration: none; }
+  .breadcrumb a:hover { color: #ee1c25; }
+
+  /* Top banner — Test Offer warning */
+  .test-banner {
+    background: linear-gradient(90deg, #fff4e0 0%, #fff8ec 100%);
+    border: 1px solid #f0c97a; border-left: 6px solid #c87a00;
+    padding: 18px 24px; border-radius: 8px; margin-bottom: 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .test-banner-icon {
+    font-size: 28px; line-height: 1;
+  }
+  .test-banner-body { flex: 1; }
+  .test-banner-title {
+    font-size: 16px; font-weight: 700; color: #5e4500; margin: 0 0 4px;
+  }
+  .test-banner-body p {
+    font-size: 13.5px; color: #5e4500; margin: 0; line-height: 1.55;
+  }
+  .test-banner-tag {
+    background: #c87a00; color: #fff; padding: 3px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+    display: inline-block; margin-left: 8px; vertical-align: middle;
+  }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  /* Left column */
+  .product-title {
+    font-size: 26px; font-weight: 700; margin: 0 0 12px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .test-pill {
+    background: #fff4e0; color: #c87a00; padding: 4px 12px;
+    border-radius: 999px; font-size: 12px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  .product-meta-row {
+    display: flex; align-items: center; gap: 24px; font-size: 13px; color: #6e6e73;
+    margin-bottom: 4px;
+  }
+  .thumbs-up { color: #1f8a4c; font-weight: 600; }
+
+  /* Share — kept */
+  .share-row {
+    display: flex; justify-content: flex-end; margin-top: -32px; margin-bottom: 28px;
+  }
+  .share-btn {
+    background: #fff; color: #1a1a1a; border: 1px solid #d0d0d5;
+    padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 500;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  .divider { border-top: 1px solid #ececec; margin: 20px 0; }
+
+  /* Product info */
+  .section-title { font-size: 20px; font-weight: 700; margin: 0 0 16px; }
+  .activation-line { color: #1f8a4c; font-weight: 600; margin-bottom: 18px; font-size: 14px; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; }
+  .info-label { font-size: 13px; color: #6e6e73; margin-bottom: 4px; }
+  .info-value { font-size: 14px; color: #1a1a1a; font-weight: 500; }
+  .pill-inline {
+    background: #f3f3f5; padding: 5px 10px; border-radius: 999px;
+    font-size: 12px; display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  /* Description block */
+  .description-card {
+    background: #fff; border: 1px solid #ececec; border-radius: 8px;
+    padding: 20px 22px; margin-top: 20px;
+  }
+  .description-card h3 {
+    font-size: 14px; font-weight: 700; margin: 0 0 10px; color: #c8242c;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .description-card p { font-size: 13.5px; color: #3a3a3f; line-height: 1.6; margin: 0 0 10px; }
+  .description-card p:last-child { margin-bottom: 0; }
+
+  /* Right column — Buy box */
+  .buy-card {
+    background: #fff; border-radius: 12px; padding: 22px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    position: sticky; top: 84px;
+  }
+  .stock-line {
+    text-align: center; font-size: 14px; color: #1a1a1a; margin-bottom: 14px;
+  }
+  .qty-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff; border: 1px solid #ececec; border-radius: 999px;
+    padding: 8px 12px; margin-bottom: 16px;
+  }
+  .qty-btn {
+    width: 28px; height: 28px; border-radius: 50%; border: none; background: #f3f3f5;
+    font-size: 18px; cursor: not-allowed; opacity: 0.6;
+  }
+  .qty-btn.plus { background: #ee1c25; color: #fff; cursor: not-allowed; opacity: 0.5; }
+  .qty-val { font-weight: 600; font-size: 16px; }
+  .qty-suffix { font-size: 13px; color: #6e6e73; }
+
+  .redeem-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid #ececec;
+    font-size: 14px;
+  }
+  .redeem-row .g-coin {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%; background: #ffc23c; color: #fff;
+    font-size: 11px; font-weight: 700; margin-right: 4px;
+  }
+  .switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; inset: 0; background: #d0d0d5; border-radius: 999px; transition: 0.2s; }
+  .slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.2s; }
+
+  .total-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px 0 4px;
+  }
+  .total-label { font-size: 14px; color: #1a1a1a; font-weight: 600; }
+  .total-amount { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+  .total-currency { font-size: 13px; color: #6e6e73; font-weight: 500; margin-left: 4px; }
+  .price-locked-note {
+    font-size: 11px; color: #c87a00; margin-bottom: 14px; display: flex; align-items: center; gap: 4px;
+  }
+
+  .checkout-btn {
+    width: 100%; background: #ee1c25; color: #fff; border: none;
+    padding: 14px 0; border-radius: 999px; font-size: 16px; font-weight: 700;
+    cursor: pointer; margin-bottom: 18px;
+  }
+  .checkout-btn:hover { background: #d6171f; }
+
+  .protection-card {
+    background: #f9faff; border: 1px solid #e0e6f5; border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 10px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .protection-card .pico { font-size: 18px; }
+  .protection-card .pt { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 0 0 2px; }
+  .protection-card .ps { font-size: 12px; color: #6e6e73; margin: 0; line-height: 1.4; }
+
+  .offer-id-row {
+    margin-top: 14px; text-align: center; font-size: 12px; color: #6e6e73;
+  }
+  .offer-id-row .mono { font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; }
+  .offer-id-row a { color: #c8242c; text-decoration: none; margin-left: 8px; }
+
+  /* Verification check banner */
+  .verify-checklist {
+    background: #fff; border: 1px solid #ececec; border-radius: 8px;
+    padding: 18px 22px; margin-top: 20px;
+  }
+  .verify-checklist h3 { font-size: 15px; font-weight: 700; margin: 0 0 12px; }
+  .verify-checklist ul { list-style: none; padding: 0; margin: 0; }
+  .verify-checklist li {
+    font-size: 13px; color: #3a3a3f; padding: 6px 0;
+    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+  }
+  .verify-checklist li::before {
+    content: "✓"; color: #1f8a4c; font-weight: 700; flex-shrink: 0; padding-top: 1px;
+  }
+
+  /* Mockup label */
+  .mockup-label {
+    position: fixed; top: 12px; right: 12px;
+    background: #1a1a1a; color: #fff; padding: 6px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">MOCKUP — Test Offer Checkout (buyer-side view)</div>
+
+<div class="topnav">
+  <div class="logo">G2G.</div>
+  <div class="nav-right">
+    <div class="region-pill">🇲🇾 MY</div>
+    <button class="create-offer-btn">Create offer</button>
+    <div class="icon-btn">💬</div>
+    <div class="icon-btn">🔔<span class="badge">4</span></div>
+    <div class="avatar"></div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="breadcrumb">
+    <a href="#">Home</a> &nbsp;›&nbsp; <a href="#">My Test Offers</a> &nbsp;›&nbsp;
+    <span style="color:#1a1a1a;">API Integration Testing</span>
+  </div>
+
+  <!-- TEST OFFER WARNING BANNER -->
+  <div class="test-banner">
+    <div class="test-banner-icon">🧪</div>
+    <div class="test-banner-body">
+      <h2 class="test-banner-title">This is a private API verification test offer<span class="test-banner-tag">Do not purchase</span></h2>
+      <p>
+        This listing is for the seller to verify their API integration. It is hidden from the public marketplace and accessible only via this direct URL.
+        Only the seller's linked secondary account can complete this purchase. Once a successful delivery payload is received,
+        "Instant Delivery" will be permanently unlocked across all of the seller's offers.
+      </p>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT: product info only -->
+    <div>
+      <h1 class="product-title">
+        Offgamers Gift Card 100 (This is a Test Offer!!)
+        <span class="test-pill">🔒 Test offer</span>
+      </h1>
+
+      <div class="product-meta-row">
+        <span class="thumbs-up">👍 0.00%</span>
+        <span>(0 reviews)</span>
+        <span>0 sold</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="section-title">Product Info</h2>
+      <div class="activation-line">Can activate in MALAYSIA</div>
+
+      <div class="info-grid">
+        <div>
+          <div class="info-label">Delivery speed</div>
+          <div class="info-value">Instant 🔒</div>
+        </div>
+        <div>
+          <div class="info-label">Delivery method</div>
+          <div class="info-value"><span class="pill-inline">⏱ Auto delivery</span></div>
+        </div>
+        <div>
+          <div class="info-label">Brand</div>
+          <div class="info-value">OffGamers</div>
+        </div>
+        <div>
+          <div class="info-label">Region</div>
+          <div class="info-value">Malaysia (MY)</div>
+        </div>
+        <div>
+          <div class="info-label">Quantity available</div>
+          <div class="info-value">1 (fixed) 🔒</div>
+        </div>
+        <div>
+          <div class="info-label">Visibility</div>
+          <div class="info-value">Private — seller URL only</div>
+        </div>
+      </div>
+
+      <!-- Description from locked template -->
+      <div class="description-card">
+        <h3>⚠ Description</h3>
+        <p><strong>This offer is just for testing — please do NOT purchase this listing.</strong></p>
+        <p>This is an API integration verification test. Only the seller's verified secondary account can complete this purchase.</p>
+      </div>
+
+      <!-- What gets verified -->
+      <div class="verify-checklist">
+        <h3>What this test verifies</h3>
+        <ul>
+          <li>Your API endpoint receives a valid G2G order event payload.</li>
+          <li>Your endpoint returns a successful delivery payload within 15 minutes of payment.</li>
+          <li>Once verified, "Instant Delivery" is permanently unlocked across all your offers — globally, all categories.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: Buy box (kept) -->
+    <div>
+      <div class="buy-card">
+        <div class="stock-line">1 Gift Card MY Available</div>
+
+        <div class="qty-row">
+          <button class="qty-btn">−</button>
+          <span class="qty-val">1</span>
+          <button class="qty-btn plus">+</button>
+          <span class="qty-suffix">gift card MY</span>
+        </div>
+        <div class="price-locked-note">🔒 Quantity locked to 1 for test offers</div>
+
+        <div class="redeem-row" style="opacity:0.5;">
+          <span>Redeem <span class="g-coin">G</span> 14,200</span>
+          <label class="switch"><input type="checkbox" disabled><span class="slider"></span></label>
+        </div>
+        <div class="price-locked-note" style="margin-top:6px;">🔒 G-coin redemption disabled for test offers</div>
+
+        <div class="total-row">
+          <span class="total-label">Total Amount</span>
+          <span><span class="total-amount">1.00</span><span class="total-currency">USD</span></span>
+        </div>
+        <div class="price-locked-note">🔒 Test offer price is fixed at USD $1.00</div>
+
+        <button class="checkout-btn">Checkout</button>
+
+        <div class="protection-card">
+          <span class="pico">🛡️</span>
+          <div>
+            <p class="pt">G2G Protection</p>
+            <p class="ps">Payment Released Only After Confirmation.</p>
+          </div>
+        </div>
+
+        <div class="protection-card">
+          <span class="pico">🚚</span>
+          <div>
+            <p class="pt">Instant Delivery</p>
+            <p class="ps">Automated Delivery System Active.</p>
+          </div>
+        </div>
+
+        <div class="offer-id-row">
+          Test Offer ID <span class="mono">#TST-20260520-0001</span>
+          <br>
+          <span style="font-size:11px;">Expires in 47h 12m if unpurchased</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
